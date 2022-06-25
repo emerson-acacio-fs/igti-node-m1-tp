@@ -18,11 +18,13 @@ app.get('/', (_, res: Response) => {
 app.use(errors())
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {
+    logger.error(`code ${error.statusCode} - ${error.message}`)
     res
       .status(error.statusCode)
       .json({ status: 'error', message: error.message })
-    next()
+    return next()
   }
+  logger.error(`code 500 - Internal server error`)
   res.status(500).json({ status: 'error', message: 'Internal server error' })
   next()
 })
