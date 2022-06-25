@@ -5,14 +5,15 @@ import cors from 'cors'
 
 import { errors } from 'celebrate'
 import { AppError } from 'shared/errors/AppError'
+import { routes } from './routes'
+
+global.FILE_NAME = 'car-list.json'
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (_, res: Response) => {
-  res.send('Hello World!')
-})
+app.use(routes)
 
 // Gestão de erros
 app.use(errors())
